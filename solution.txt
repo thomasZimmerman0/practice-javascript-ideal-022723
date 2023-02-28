@@ -1,0 +1,82 @@
+const display = document.getElementById('display');
+
+let value1 = 0;
+let value2 = 0;
+let nextValue = false;
+let operation = '';
+
+let isNumber = {
+    '1': '1',
+    '2': '2',
+    '3': '3',
+    '4': '4',
+    '5': '5',
+    '6': '6',
+    '7': '7',
+    '8': '8',
+    '9': '9',
+    '0': '0',
+}
+
+let isOperator = {
+    '+': function (x, y) {return x + y},
+    '-': function (x, y) {return x - y},
+    '*': function (x, y) {return x * y},
+    '/': function (x, y) {return x / y},
+}
+
+const clear = () => {
+    nextValue = false;
+    value1 = 0;
+    value2= 0
+    operation = 0
+    display.innerHTML = ""
+}
+
+const operate = (v1, v2, op) => {
+
+    v1 = parseInt(v1)
+    v2 = parseInt(v2)
+    display.innerHTML = isOperator[op](v1, v2)
+}
+
+const invalid = () =>{
+    alert("Cannot do operation with no number!")
+}
+
+document.addEventListener("click", (e) => {
+
+    if(isNumber[e.target.id] && nextValue == false){
+        if(value1 == 0){
+            value1 = e.target.id
+        } else{
+            value1 += e.target.id
+        }
+        
+        display.innerHTML = value1
+    }
+    
+    if(isNumber[e.target.id] && nextValue == true){
+        if(value2 == 0){
+            value2 = e.target.id
+        } else{
+            value2 += e.target.id
+        }
+
+        display.innerHTML = value2
+    }
+
+    if(isOperator[e.target.id]){
+        operation = e.target.id
+        nextValue = true
+        display.innerHTML = e.target.id
+    }
+
+    if(e.target.id == 'C'){
+        clear()
+    }
+
+    if(e.target.id == '='){
+        operate(value1, value2, operation)
+    }
+})
